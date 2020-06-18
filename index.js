@@ -4,7 +4,6 @@ const inquirer = require('inquirer')
 
 
 
-var inquirer = require('inquirer');
 inquirer
   .prompt([ {
     /* Pass your questions in here */
@@ -33,7 +32,7 @@ inquirer
       name: "usage"
   }, {
      type: "input",
-     message: "List ypur collaborators:",
+     message: "List your collaborators:",
      name: "credits"
   }, {
      type: "list",
@@ -48,15 +47,59 @@ inquirer
       test: "input",
       message: "Provide tests for your application:",
       name: "test"
-  }
-  ])
+  }])
   .then(answers => {
     // Use user feedback for... whatever!!
+    //const qURL = "https://"
+    let md = `# ${answers.title}
+
+## Description
+
+${answers.discription}
+
+## Table of Contents (Optional)
+
+${answers.content}
+    
+* [Installation](#installation)
+* [Usage](#usage)
+* [Credits](#credits)
+* [License](#license)
+
+## Instalation
+    
+${answers.installation}
+    
+## Usage
+    
+${answers.usage}
+    
+## Credits
+    
+${answers.username}
+${answers.credits}
+    
+## License
+    
+${answers.license}
+    
+## Test
+    
+${answers.test}
+
+---
+© 2020 Natalia Arias Inc. brand. All Rights Reserved.
+    `;
+    fs.writeFile("README1.md", md, (err) => {
+        if (err) throw err;
+        console.log("README1.md has been written secessfully...")
+    });
   })
   .catch(error => {
-    if(error.isTtyError) {
+    //if(error.isTtyError) {
       // Prompt couldn't be rendered in the current environment
-    } else {
+    //} else {
       // Something else when wrong
-    }
+      console.log(err);
+    //}
   });
