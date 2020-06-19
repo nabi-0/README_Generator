@@ -1,15 +1,19 @@
-const fs = require('fs')
-const inquirer = require('inquirer')
-//const axios =require('axios')
+const fs = require('fs');
+//const inquirer = require('inquirer');
+//const axios =require('axios');
 
 
-
+const inquirer = require('inquirer');
 inquirer
   .prompt([ {
     /* Pass your questions in here */
      type: "input",
      message: "Enter GitHub username.",
      name: "username"
+  }, {
+      type: "input",
+      message:"Enter your valid email:",
+      name: "email"
   }, {
      type: "input",
      message: "Enter the title of ypur project:",
@@ -38,8 +42,8 @@ inquirer
      type: "list",
      message: "Select a license:",
      choices: [
-         "MIT",
-         "GNU GPLv3",
+         "MIT License",
+         "ISC",
          "Mozilla Public License 2.0",
          "ApacheLicense2.0" ],
      name: "license"
@@ -47,51 +51,82 @@ inquirer
       test: "input",
       message: "Provide tests for your application:",
       name: "test"
+  }, {
+      type: "input",
+      message: "Enter any questions:",
+      name: "questions"
   }])
   .then(answers => {
     // Use user feedback for... whatever!!
-    //const qURL = "https://"
-    let md = `# ${answers.title}
+    // let licenseBadge = "";
+    // if (answers.license === "MIT License"){
+    //     licenseBadge = "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)"
+    // }
+    // if (answers.license === "ISC"){
+    //     licenseBadge = "[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)"
+    // }
+    // if (answers.license === "Mozilla Public License 2.0"){
+    //     licenseBadge = "[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)"
+    // }
+    // if (answers.license === "Apache License 2.0"){
+    //     licenseBadge = "[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)"
+    // }
+    
+let md = 
+`# ${answers.title}
+
 
 ## Description
 
 ${answers.discription}
 
+
 ## Table of Contents (Optional)
 
-${answers.content}
-    
 * [Installation](#installation)
 * [Usage](#usage)
 * [Credits](#credits)
 * [License](#license)
+* ${answers.content}
 
 ## Instalation
     
 ${answers.installation}
-    
+
+
 ## Usage
     
 ${answers.usage}
-    
+
+
 ## Credits
     
 ${answers.username}
 ${answers.credits}
-    
+
+
 ## License
     
 ${answers.license}
-    
+
+
 ## Test
     
 ${answers.test}
 
+
+## Questions
+
+${answers.questions}
+
+Send me an email at: ${answers.email} with any additinal question.
+
+
 ---
 © 2020 Natalia Arias Inc. brand. All Rights Reserved.
     `;
-    fs.writeFile("README1.md", md, (err) => {
-        if (err) throw err;
+    fs.writeFile("README1.md", md, (error) => {
+        if (error) throw error;
         console.log("README1.md has been written secessfully...")
     });
   })
@@ -99,7 +134,7 @@ ${answers.test}
     //if(error.isTtyError) {
       // Prompt couldn't be rendered in the current environment
     //} else {
-      // Something else when wrong
-      console.log(err);
+      // Something else went wrong
+      console.log(error);
     //}
   });
